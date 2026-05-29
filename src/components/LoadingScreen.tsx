@@ -11,14 +11,14 @@ const WORDS = [
 export default function LoadingScreen() {
   const [phase, setPhase] = useState<"enter" | "exit" | "done">("enter");
 
-  /* ── Minuterie ── */
+  
   useEffect(() => {
     const t1 = setTimeout(() => setPhase("exit"), 2200);
     const t2 = setTimeout(() => setPhase("done"), 3100);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
-  /* ── Scroll lock ── */
+  
   useEffect(() => {
     document.body.style.overflow = phase === "enter" ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -30,9 +30,7 @@ export default function LoadingScreen() {
 
   return (
     <>
-      {/* ════════════════════════════════════════════════
-          Rideaux : top et bottom s'écartent
-      ════════════════════════════════════════════════ */}
+      {}
       <div
         style={{
           position: "fixed",
@@ -59,11 +57,7 @@ export default function LoadingScreen() {
             : "none",
         }}
       />
-
-      {/* ════════════════════════════════════════════════
-          Contenu central
-      ════════════════════════════════════════════════ */}
-      <div
+<div
         style={{
           position: "fixed",
           inset: 0,
@@ -77,8 +71,7 @@ export default function LoadingScreen() {
           pointerEvents: "none",
         }}
       >
-        {/* ── Mots ── */}
-        <div
+<div
           style={{
             display: "flex",
             flexDirection: "column",
@@ -98,8 +91,7 @@ export default function LoadingScreen() {
                 animation: `ls-word-in 0.95s cubic-bezier(0.22, 1, 0.36, 1) ${i * 220}ms forwards`,
               }}
             >
-              {/* Accent néon */}
-              <div
+<div
                 style={{
                   width: "2px",
                   height: "clamp(2rem, 4.5vw, 3.8rem)",
@@ -112,9 +104,7 @@ export default function LoadingScreen() {
                   animation: `ls-line-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) ${i * 220 + 60}ms both`,
                 }}
               />
-
-              {/* Mot */}
-              <span
+<span
                 style={{
                   fontFamily: "var(--font-geist-sans)",
                   fontSize: "clamp(3rem, 7.5vw, 6.5rem)",
@@ -140,9 +130,7 @@ export default function LoadingScreen() {
             </div>
           ))}
         </div>
-
-        {/* ── Barre de progression ── */}
-        <div
+<div
           style={{
             position: "absolute",
             bottom: "2.25rem",
@@ -150,8 +138,7 @@ export default function LoadingScreen() {
             right: "2rem",
           }}
         >
-          {/* Track */}
-          <div
+<div
             style={{
               width: "100%",
               height: "1px",
@@ -161,8 +148,7 @@ export default function LoadingScreen() {
               overflow: "hidden",
             }}
           >
-            {/* Fill */}
-            <div
+<div
               style={{
                 position: "absolute",
                 inset: 0,
@@ -173,9 +159,7 @@ export default function LoadingScreen() {
               }}
             />
           </div>
-
-          {/* Label */}
-          <div
+<div
             style={{
               marginTop: "0.75rem",
               display: "flex",
@@ -192,9 +176,7 @@ export default function LoadingScreen() {
           </div>
         </div>
       </div>
-
-      {/* ── Keyframes inline ── */}
-      <style>{`
+<style>{`
         @keyframes ls-word-in {
           from {
             opacity: 0;

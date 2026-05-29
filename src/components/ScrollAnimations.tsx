@@ -5,8 +5,7 @@ import { useEffect, useRef } from "react";
 export default function ScrollAnimations() {
   const progressRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // ── 1. Section reveal via IntersectionObserver ──
+  useEffect(() => {
     const sections = document.querySelectorAll("section[id]");
 
     const revealObserver = new IntersectionObserver(
@@ -20,9 +19,7 @@ export default function ScrollAnimations() {
       { threshold: 0.07 }
     );
 
-    sections.forEach((s) => revealObserver.observe(s));
-
-    // ── 2. Stagger : enfants avec data-stagger ──
+    sections.forEach((s) => revealObserver.observe(s));
     const staggerObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -41,9 +38,7 @@ export default function ScrollAnimations() {
 
     document
       .querySelectorAll("[data-stagger-parent]")
-      .forEach((el) => staggerObserver.observe(el));
-
-    // ── 3. Parallax : blobs hero ──
+      .forEach((el) => staggerObserver.observe(el));
     const heroBlobs = document.querySelectorAll<HTMLElement>("#home .parallax-blob");
 
     const progress = progressRef.current;
@@ -53,12 +48,8 @@ export default function ScrollAnimations() {
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
         const y   = window.scrollY;
-        const max = document.documentElement.scrollHeight - window.innerHeight;
-
-        // Barre de progression
-        if (progress) progress.style.width = `${(y / max) * 100}%`;
-
-        // Blobs parallax
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        if (progress) progress.style.width = `${(y / max) * 100}%`;
         heroBlobs.forEach((blob, i) => {
           const speed = i % 2 === 0 ? 0.12 : -0.08;
           blob.style.transform = `translateY(${y * speed}px)`;
@@ -77,7 +68,7 @@ export default function ScrollAnimations() {
   }, []);
 
   return (
-    /* ── Barre de progression scroll ── */
+    
     <div className="fixed top-0 left-0 right-0 z-[80] h-[2px] pointer-events-none">
       <div
         ref={progressRef}

@@ -1,4 +1,9 @@
+"use client";
+
+import { useLanguage } from "@/i18n/LanguageContext";
+
 export default function Footer() {
+  const { t } = useLanguage();
   const techs = [
     {
       name: "Next.js",
@@ -44,7 +49,7 @@ export default function Footer() {
 
         <div className="flex items-center gap-4 flex-wrap justify-center">
           <span className="text-[9px] font-bold tracking-[0.3em] uppercase text-base-content/20 mr-1">
-            Built with
+            {t.footer.builtWith}
           </span>
           {techs.map(({ name, href, svg }) => (
             <a

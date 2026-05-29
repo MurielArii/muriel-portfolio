@@ -6,8 +6,7 @@ export default function CustomCursor() {
   const dotRef  = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Désactivé sur écrans tactiles
+  useEffect(() => {
     if (window.matchMedia("(hover: none)").matches) return;
 
     const dot  = dotRef.current!;
@@ -20,7 +19,7 @@ export default function CustomCursor() {
 
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-    /* ── Suivi immédiat du dot ── */
+    
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
@@ -34,7 +33,7 @@ export default function CustomCursor() {
       }
     };
 
-    /* ── Ring avec spring (lerp) ── */
+    
     const tick = () => {
       rx = lerp(rx, mx, 0.1);
       ry = lerp(ry, my, 0.1);
@@ -47,7 +46,7 @@ export default function CustomCursor() {
     window.addEventListener("mousemove", onMove);
     document.documentElement.style.cursor = "none";
 
-    /* ── Hover sur éléments interactifs ── */
+    
     const enter = () => {
       ring.style.width       = "60px";
       ring.style.height      = "60px";
@@ -82,8 +81,7 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* ── Dot : suit instantanément ── */}
-      <div
+<div
         ref={dotRef}
         style={{
           position   : "fixed",
@@ -102,8 +100,7 @@ export default function CustomCursor() {
           transition : "transform 0.2s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s",
         }}
       />
-      {/* ── Ring : suit avec lag (spring) ── */}
-      <div
+<div
         ref={ringRef}
         style={{
           position   : "fixed",

@@ -1,26 +1,31 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
-const navLinks = [
-  { href: "#home", label: "Accueil" },
-  { href: "#about", label: "À propos" },
-  { href: "#stack", label: "Stack" },
-  { href: "#projects", label: "Projets" },
-  { href: "#contact", label: "Contact" },
-];
+import { useState, useEffect, useMemo } from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 export default function Navbar() {
+  const { locale, t, toggleLocale } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
-  const [pastHero, setPastHero] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState("dim");
   const [activeSection, setActiveSection] = useState("home");
 
+  const navLinks = useMemo(
+    () => [
+      { href: "#home", label: t.nav.home },
+      { href: "#about", label: t.nav.about },
+      { href: "#stack", label: t.nav.stack },
+      { href: "#projects", label: t.nav.projects },
+      { href: "#education", label: t.nav.education },
+      { href: "#experience", label: t.nav.experience },
+      { href: "#contact", label: t.nav.contact },
+    ],
+    [t]
+  );
+
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 40);
-      setPastHero(window.scrollY > window.innerHeight * 0.7);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -39,7 +44,7 @@ export default function Navbar() {
     );
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [navLinks]);
 
   const toggleTheme = () => {
     const next = theme === "dim" ? "light" : "dim";
@@ -51,14 +56,12 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-base-100/80 backdrop-blur-md border-b border-base-content/[0.06]"
+          ? "bg-base-100/60 backdrop-blur-xl border-b border-base-content/[0.05] shadow-lg shadow-black/5"
           : "bg-transparent"
       }`}
     >
       <nav className="px-8 lg:px-20 2xl:px-32 py-4 lg:py-5 flex items-center justify-between">
-
-        {/* ── Logo ── */}
-        <a href="#home" className="flex flex-col leading-none group shrink-0">
+<a href="#home" className="flex flex-col leading-none group shrink-0">
           <div className="flex items-end gap-0.5">
             <span className="text-xl lg:text-2xl font-black tracking-wide text-base-content transition-colors duration-300">
               Muriel
@@ -74,9 +77,7 @@ export default function Navbar() {
             Ranaivoson
           </span>
         </a>
-
-        {/* ── Liens desktop ── */}
-        <div className="hidden lg:flex items-center gap-8">
+<div className="hidden lg:flex items-center gap-8">
           {navLinks.map(({ href, label }) => {
             const isActive = activeSection === href.replace("#", "");
             return (
@@ -98,44 +99,33 @@ export default function Navbar() {
             );
           })}
         </div>
+<div className="flex items-center gap-5">
 
-        {/* ── Actions ── */}
-        <div className="flex items-center gap-4 lg:gap-5">
+          <button
+            onClick={toggleLocale}
+            aria-label={locale === "fr" ? "Switch to English" : "Passer en français"}
+            className="text-[11px] font-bold tracking-[0.2em] uppercase text-base-content/35 hover:text-primary transition-colors duration-300"
+          >
+            {locale === "fr" ? "EN" : "FR"}
+          </button>
 
-          {/* Thème + CV — toujours visibles */}
-          <div className="hidden sm:flex items-center gap-4">
-            {/* Toggle thème */}
-            <button
-              onClick={toggleTheme}
-              aria-label="Changer le thème"
-              className="text-base-content/35 hover:text-primary transition-all duration-300 hover:scale-110"
-            >
-              {theme === "light" ? (
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
-                </svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-                </svg>
-              )}
-            </button>
-            {/* CV */}
-            <a
-              href="/CV_MurielArisoaRanaivoson.pdf"
-              download
-              className="group inline-flex items-center gap-2 px-4 py-1.5 text-[11px] font-bold tracking-[0.18em] uppercase overflow-hidden relative border border-primary/40 hover:border-primary transition-colors duration-300"
-            >
-              <span className="absolute inset-0 bg-primary origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
-              <span className="relative z-10 text-primary group-hover:text-primary-content transition-colors delay-100 duration-150">CV</span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"
-                className="relative z-10 w-3.5 h-3.5 text-primary group-hover:text-primary-content group-hover:translate-y-0.5 transition-all duration-300 delay-100">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+
+          <button
+            onClick={toggleTheme}
+            aria-label={t.nav.changeTheme}
+            className="hidden sm:block text-base-content/35 hover:text-primary transition-colors duration-300"
+          >
+            {theme === "light" ? (
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="w-[18px] h-[18px]">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
               </svg>
-            </a>
-          </div>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="w-[18px] h-[18px]">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+              </svg>
+            )}
+          </button>
 
-          {/* Hamburger mobile */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Menu"
@@ -147,9 +137,7 @@ export default function Navbar() {
           </button>
         </div>
       </nav>
-
-      {/* ── Menu mobile ── */}
-      <div
+<div
         className={`lg:hidden overflow-hidden transition-all duration-400 ease-out ${
           menuOpen ? "max-h-96" : "max-h-0"
         }`}
@@ -170,6 +158,12 @@ export default function Navbar() {
             </a>
           ))}
           <div className="h-px w-full bg-base-content/[0.06]" />
+          <button
+            onClick={toggleLocale}
+            className="text-sm font-semibold tracking-[0.25em] uppercase text-base-content/45 hover:text-primary transition-colors duration-300 w-fit"
+          >
+            {locale === "fr" ? "English" : "Français"}
+          </button>
         </div>
       </div>
     </header>

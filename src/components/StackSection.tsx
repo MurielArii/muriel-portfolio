@@ -1,3 +1,7 @@
+"use client";
+
+import { useLanguage } from "@/i18n/LanguageContext";
+
 type TechIcon = {
   name: string;
   hoverClass: string;
@@ -48,8 +52,7 @@ function TechGrid({ items }: { items: TechIcon[] }) {
 function ToolChipGroup({ title, items }: { title: string; items: ToolChip[] }) {
   return (
     <div className="flex flex-col gap-4">
-      {/* En-tête catégorie */}
-      <div className="flex items-center gap-3">
+<div className="flex items-center gap-3">
         <div
           className="w-1.5 h-1.5 rounded-full bg-primary shrink-0"
           style={{ boxShadow: "0 0 6px var(--color-primary)" }}
@@ -59,9 +62,7 @@ function ToolChipGroup({ title, items }: { title: string; items: ToolChip[] }) {
         </span>
         <div className="flex-1 h-px bg-gradient-to-r from-primary/25 to-transparent" />
       </div>
-
-      {/* Pills */}
-      <div className="flex flex-wrap gap-2">
+<div className="flex flex-wrap gap-2">
         {items.map(({ name, svg }) => (
           <span
             key={name}
@@ -388,13 +389,13 @@ const methodologies: ToolChip[] = [
 ];
 
 export default function StackSection() {
+  const { t } = useLanguage();
   return (
     <section
       id="stack"
       className="relative bg-base-100 overflow-hidden py-24 lg:py-36"
     >
-      {/* ── Points sombres subtils ── */}
-      <div
+<div
         className="absolute inset-0 pointer-events-none opacity-[0.05]"
         style={{
           backgroundImage:
@@ -402,16 +403,12 @@ export default function StackSection() {
           backgroundSize: "48px 48px",
         }}
       />
-
-      {/* ── Filigrane "02" ── */}
-      <div className="absolute bottom-0 right-0 overflow-hidden pointer-events-none select-none leading-none">
+<div className="absolute bottom-0 right-0 overflow-hidden pointer-events-none select-none leading-none">
         <p className="text-[28vw] font-black tracking-tighter text-primary/[0.03]">
           02
         </p>
       </div>
-
-      {/* ── Blobs ── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+<div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           className="absolute top-[10%] right-[-8%] w-[450px] h-[450px] bg-primary/6 rounded-full blur-[140px] animate-blob-float"
           style={{ animationDuration: "16s" }}
@@ -421,9 +418,7 @@ export default function StackSection() {
           style={{ animationDelay: "-8s", animationDuration: "20s" }}
         />
       </div>
-
-      {/* ── Ligne verticale décorative ── */}
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-3">
+<div className="absolute right-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-3">
         <div className="w-px h-20 bg-gradient-to-b from-transparent via-primary/30 to-transparent" />
         <span className="text-[9px] font-bold tracking-[0.3em] text-primary/30 [writing-mode:vertical-rl]">
           02
@@ -432,25 +427,22 @@ export default function StackSection() {
       </div>
 
       <div className="relative z-10 px-8 lg:px-20 2xl:px-32">
-        {/* ── Label section ── */}
-        <div
+<div
           className="flex items-center gap-3 mb-5 animate-fade-slide-up"
           style={{ animationDelay: "0.1s" }}
         >
           <span className="w-6 h-px bg-primary/50" />
           <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-primary/70">
-            Compétences
+            {t.stack.label}
           </span>
           <span className="w-6 h-px bg-primary/50" />
         </div>
-
-        {/* ── Titre ── */}
-        <h2
+<h2
           className="font-black leading-[0.88] tracking-tight mb-16 animate-fade-slide-up"
           style={{ animationDelay: "0.2s" }}
         >
           <span className="block text-4xl lg:text-6xl 2xl:text-7xl text-base-content/75">
-            Stack
+            {t.stack.titleLine1}
           </span>
           <span
             className="block text-4xl lg:text-6xl 2xl:text-7xl"
@@ -462,57 +454,42 @@ export default function StackSection() {
               backgroundClip: "text",
             }}
           >
-            technique
+            {t.stack.titleLine2}
           </span>
         </h2>
-
-        {/* ── Deux colonnes : Stack | Outils ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-
-          {/* ─ Colonne gauche : icônes par catégorie ─ */}
-          <div
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+<div
             className="flex flex-col gap-12 animate-fade-slide-up"
             style={{ animationDelay: "0.3s" }}
           >
-            {/* Frontend */}
-            <div>
+<div>
               <CategoryLabel label="Frontend" />
               <TechGrid items={frontend} />
             </div>
-
-            {/* Séparateur */}
-            <div className="h-px w-full bg-gradient-to-r from-primary/20 via-base-content/5 to-transparent" />
-
-            {/* Backend */}
-            <div>
+<div className="h-px w-full bg-gradient-to-r from-primary/20 via-base-content/5 to-transparent" />
+<div>
               <CategoryLabel label="Backend" />
               <TechGrid items={backend} />
             </div>
-
-            {/* Séparateur */}
-            <div className="h-px w-full bg-gradient-to-r from-primary/20 via-base-content/5 to-transparent" />
-
-            {/* Mobile */}
-            <div>
+<div className="h-px w-full bg-gradient-to-r from-primary/20 via-base-content/5 to-transparent" />
+<div>
               <CategoryLabel label="Mobile" />
               <TechGrid items={mobile} />
             </div>
           </div>
-
-          {/* ─ Colonne droite : outils ─ */}
-          <div
+<div
             className="flex flex-col gap-7 animate-fade-slide-up"
             style={{ animationDelay: "0.45s" }}
           >
-            <ToolChipGroup title="Outils & Déploiement" items={tools} />
+            <ToolChipGroup title={t.stack.toolsDeployment} items={tools} />
             <div className="h-px bg-gradient-to-r from-base-content/8 to-transparent" />
-            <ToolChipGroup title="Bases de données" items={databases} />
+            <ToolChipGroup title={t.stack.databases} items={databases} />
             <div className="h-px bg-gradient-to-r from-base-content/8 to-transparent" />
-            <ToolChipGroup title="Temps réel" items={realtime} />
+            <ToolChipGroup title={t.stack.realtime} items={realtime} />
             <div className="h-px bg-gradient-to-r from-base-content/8 to-transparent" />
-            <ToolChipGroup title="Méthodologies" items={methodologies} />
+            <ToolChipGroup title={t.stack.methodologies} items={methodologies} />
             <div className="h-px bg-gradient-to-r from-base-content/8 to-transparent" />
-            <ToolChipGroup title="Environnement" items={environment} />
+            <ToolChipGroup title={t.stack.environment} items={environment} />
           </div>
         </div>
       </div>

@@ -1,15 +1,28 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 export default function ContactSection() {
+  const { t } = useLanguage();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Message de ${form.name}`);
-    const body = encodeURIComponent(`Nom : ${form.name}\nEmail : ${form.email}\n\n${form.message}`);
-    window.location.href = `mailto:murielarisoaran@gmail.com?subject=${subject}&body=${body}`;
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error();
+      setStatus("sent");
+      setForm({ name: "", email: "", message: "" });
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -17,15 +30,12 @@ export default function ContactSection() {
       id="contact"
       className="relative bg-base-100 overflow-hidden py-24 lg:py-36"
     >
-      {/* ── Filigrane "06" centré ── */}
-      <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none">
+<div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none">
         <p className="text-[40vw] font-black tracking-tighter text-primary/[0.02] leading-none">
           06
         </p>
       </div>
-
-      {/* ── Blobs ── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+<div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           className="absolute top-[15%] right-[-5%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-[130px] animate-blob-float"
           style={{ animationDuration: "18s" }}
@@ -35,9 +45,7 @@ export default function ContactSection() {
           style={{ animationDelay: "-9s", animationDuration: "22s" }}
         />
       </div>
-
-      {/* ── Ligne verticale décorative ── */}
-      <div className="absolute left-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-3">
+<div className="absolute left-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-3">
         <div className="w-px h-20 bg-gradient-to-b from-transparent via-primary/30 to-transparent" />
         <span className="text-[9px] font-bold tracking-[0.3em] text-primary/30 [writing-mode:vertical-rl]">
           06
@@ -47,28 +55,23 @@ export default function ContactSection() {
 
       <div className="relative z-10 px-8 lg:px-20 2xl:px-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-start">
-
-          {/* ── Colonne gauche : titre + infos ── */}
-          <div className="lg:sticky lg:top-32">
-            {/* Label */}
-            <div
+<div className="lg:sticky lg:top-32">
+<div
               className="flex items-center gap-3 mb-5 animate-fade-slide-up"
               style={{ animationDelay: "0.1s" }}
             >
               <span className="w-6 h-px bg-primary/50" />
               <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-primary/70">
-                Contact
+                {t.contact.label}
               </span>
               <span className="w-6 h-px bg-primary/50" />
             </div>
-
-            {/* Titre */}
-            <h2
+<h2
               className="font-black leading-[0.88] tracking-tight mb-10 animate-fade-slide-up"
               style={{ animationDelay: "0.2s" }}
             >
               <span className="block text-4xl lg:text-6xl 2xl:text-7xl text-base-content/75">
-                Me
+                {t.contact.titleLine1}
               </span>
               <span
                 className="block text-4xl lg:text-6xl 2xl:text-7xl"
@@ -80,21 +83,16 @@ export default function ContactSection() {
                   backgroundClip: "text",
                 }}
               >
-                contacter
+                {t.contact.titleLine2}
               </span>
             </h2>
-
-            {/* Texte */}
-            <p
+<p
               className="text-sm text-base-content/40 leading-relaxed max-w-xs mb-12 animate-fade-slide-up"
               style={{ animationDelay: "0.3s" }}
             >
-              Une opportunité, une collaboration ou juste un message —
-              n&apos;hésitez pas, je réponds.
+              {t.contact.description}
             </p>
-
-            {/* Email */}
-            <a
+<a
               href="mailto:murielarisoaran@gmail.com"
               className="animate-fade-slide-up group flex items-center gap-3 mb-8 w-fit"
               style={{ animationDelay: "0.35s" }}
@@ -106,9 +104,7 @@ export default function ContactSection() {
                 murielarisoaran@gmail.com
               </span>
             </a>
-
-            {/* Liens sociaux */}
-            <div className="flex items-center gap-5 animate-fade-slide-up" style={{ animationDelay: "0.4s" }}>
+<div className="flex items-center gap-5 animate-fade-slide-up" style={{ animationDelay: "0.4s" }}>
               {[
                 {
                   label: "GitHub",
@@ -142,17 +138,14 @@ export default function ContactSection() {
               ))}
             </div>
           </div>
-
-          {/* ── Colonne droite : formulaire ── */}
-          <form
+<form
             onSubmit={handleSubmit}
             className="flex flex-col gap-10 animate-fade-slide-up"
             style={{ animationDelay: "0.3s" }}
           >
-            {/* Nom */}
-            <div className="group">
+<div className="group">
               <label className="block text-[10px] font-semibold tracking-[0.25em] uppercase text-base-content/30 mb-3 group-focus-within:text-primary/70 transition-colors duration-300">
-                Nom
+                {t.contact.nameLabel}
               </label>
               <input
                 type="text"
@@ -160,14 +153,12 @@ export default function ContactSection() {
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 className="w-full bg-transparent border-0 border-b border-base-content/[0.12] pb-3 text-base-content/80 text-sm placeholder:text-base-content/15 focus:outline-none focus:border-primary/60 transition-colors duration-300"
-                placeholder="Votre nom"
+                placeholder={t.contact.namePlaceholder}
               />
             </div>
-
-            {/* Email */}
-            <div className="group">
+<div className="group">
               <label className="block text-[10px] font-semibold tracking-[0.25em] uppercase text-base-content/30 mb-3 group-focus-within:text-primary/70 transition-colors duration-300">
-                Email
+                {t.contact.emailLabel}
               </label>
               <input
                 type="email"
@@ -175,14 +166,12 @@ export default function ContactSection() {
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 className="w-full bg-transparent border-0 border-b border-base-content/[0.12] pb-3 text-base-content/80 text-sm placeholder:text-base-content/15 focus:outline-none focus:border-primary/60 transition-colors duration-300"
-                placeholder="votre@email.com"
+                placeholder={t.contact.emailPlaceholder}
               />
             </div>
-
-            {/* Message */}
-            <div className="group">
+<div className="group">
               <label className="block text-[10px] font-semibold tracking-[0.25em] uppercase text-base-content/30 mb-3 group-focus-within:text-primary/70 transition-colors duration-300">
-                Message
+                {t.contact.messageLabel}
               </label>
               <textarea
                 required
@@ -190,27 +179,25 @@ export default function ContactSection() {
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 className="w-full bg-transparent border-0 border-b border-base-content/[0.12] pb-3 text-base-content/80 text-sm placeholder:text-base-content/15 focus:outline-none focus:border-primary/60 transition-colors duration-300 resize-none"
-                placeholder="Votre message..."
+                placeholder={t.contact.messagePlaceholder}
               />
             </div>
-
-            {/* Bouton */}
-            <button
+<button
               type="submit"
-              className="group relative w-fit flex items-center gap-3 px-8 py-4 text-[11px] font-bold tracking-[0.25em] uppercase overflow-hidden"
+              disabled={status === "sending"}
+              className="group relative w-fit flex items-center gap-3 px-8 py-4 text-[11px] font-bold tracking-[0.25em] uppercase overflow-hidden disabled:opacity-50"
               style={{
                 border: "1px solid color-mix(in oklch, var(--color-primary) 40%, transparent)",
               }}
             >
-              {/* Fond neon au hover */}
-              <span
+<span
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 style={{ background: "color-mix(in oklch, var(--color-primary) 10%, transparent)" }}
               />
               <span
                 className="relative text-primary/80 group-hover:text-primary transition-colors duration-300"
               >
-                Envoyer le message
+                {status === "sending" ? t.contact.sending : t.contact.send}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -223,6 +210,33 @@ export default function ContactSection() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
               </svg>
             </button>
+{status === "sent" && (
+              <div className="flex items-start gap-3 p-4 border border-primary/20 bg-primary/[0.04] animate-fade-slide-up">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-primary shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                <div>
+                  <p className="text-sm font-semibold text-primary">{t.contact.sent}</p>
+                  <p className="text-xs text-base-content/40 mt-1">{t.contact.sentDescription}</p>
+                </div>
+              </div>
+            )}
+{status === "error" && (
+              <div className="flex items-start gap-3 p-4 border border-error/20 bg-error/[0.04] animate-fade-slide-up">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-error shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                </svg>
+                <div>
+                  <p className="text-sm font-semibold text-error">{t.contact.error}</p>
+                  <p className="text-xs text-base-content/40 mt-1">
+                    {t.contact.errorDescription}{" "}
+                    <a href="mailto:murielarisoaran@gmail.com" className="text-primary/70 hover:text-primary underline transition-colors">
+                      murielarisoaran@gmail.com
+                    </a>
+                  </p>
+                </div>
+              </div>
+            )}
           </form>
 
         </div>

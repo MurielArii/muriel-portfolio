@@ -10,6 +10,8 @@ import ScrollAnimations from "@/components/ScrollAnimations";
 import CustomCursor from "@/components/CustomCursor";
 import LoadingScreen from "@/components/LoadingScreen";
 import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
+import SectionDivider from "@/components/SectionDivider";
 
 export default function Home() {
   return (
@@ -19,13 +21,20 @@ export default function Home() {
       <ScrollAnimations />
       <Navbar />
       <HeroSection />
+      <SectionDivider />
       <AboutMeSection />
+      <SectionDivider />
       <StackSection />
+      <SectionDivider />
       <ProjectSection />
+      <SectionDivider />
       <EducationSection />
+      <SectionDivider />
       <ExperienceSection />
+      <SectionDivider />
       <ContactSection />
       <Footer />
+      <ScrollToTop />
     </main>
   );
 }

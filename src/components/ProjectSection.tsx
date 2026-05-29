@@ -1,11 +1,14 @@
+"use client";
+
 import Image from "next/image";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 type Project = {
   name: string;
   description: string;
   tags: string[];
   href?: string;
-  /** Chemin vers une capture d'écran dans /public, ex: "/images/projects/tiazaza.png" */
+  
   preview?: string;
   svg: React.ReactNode;
 };
@@ -13,7 +16,7 @@ type Project = {
 const projects: Project[] = [
   {
     name: "TiaZaza",
-    description: "Application web de gestion pour un orphelinat — suivi des enfants, dossiers et activités.",
+    description: "Site vitrine 3D pour jeux d'enfants.",
     tags: ["React", "Tailwind CSS"],
     href: "https://wcc-s2-thony.netlify.app/",
     preview: "/images/projects/tiazaza.png",
@@ -87,13 +90,13 @@ const projects: Project[] = [
 ];
 
 export default function ProjectSection() {
+  const { t } = useLanguage();
   return (
     <section
       id="projects"
       className="relative bg-base-100 overflow-hidden py-24 lg:py-36"
     >
-      {/* ── Grille sombre subtile ── */}
-      <div
+<div
         className="absolute inset-0 pointer-events-none opacity-[0.04]"
         style={{
           backgroundImage:
@@ -101,16 +104,12 @@ export default function ProjectSection() {
           backgroundSize: "48px 48px",
         }}
       />
-
-      {/* ── Filigrane "03" ── */}
-      <div className="absolute top-0 right-0 overflow-hidden pointer-events-none select-none leading-none">
+<div className="absolute top-0 right-0 overflow-hidden pointer-events-none select-none leading-none">
         <p className="text-[22vw] font-black tracking-tighter text-primary/[0.03]">
           03
         </p>
       </div>
-
-      {/* ── Blobs ── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+<div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           className="absolute top-[15%] left-[-5%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-[130px] animate-blob-float"
           style={{ animationDuration: "18s" }}
@@ -120,9 +119,7 @@ export default function ProjectSection() {
           style={{ animationDelay: "-9s", animationDuration: "22s" }}
         />
       </div>
-
-      {/* ── Ligne verticale décorative ── */}
-      <div className="absolute left-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-3">
+<div className="absolute left-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-3">
         <div className="w-px h-20 bg-gradient-to-b from-transparent via-primary/30 to-transparent" />
         <span className="text-[9px] font-bold tracking-[0.3em] text-primary/30 [writing-mode:vertical-rl]">
           03
@@ -131,25 +128,22 @@ export default function ProjectSection() {
       </div>
 
       <div className="relative z-10 px-8 lg:px-20 2xl:px-32">
-        {/* ── Label section ── */}
-        <div
+<div
           className="flex items-center gap-3 mb-5 animate-fade-slide-up"
           style={{ animationDelay: "0.1s" }}
         >
           <span className="w-6 h-px bg-primary/50" />
           <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-primary/70">
-            Projets
+            {t.projects.label}
           </span>
           <span className="w-6 h-px bg-primary/50" />
         </div>
-
-        {/* ── Titre ── */}
-        <h2
+<h2
           className="font-black leading-[0.88] tracking-tight mb-16 animate-fade-slide-up"
           style={{ animationDelay: "0.2s" }}
         >
           <span className="block text-4xl lg:text-6xl 2xl:text-7xl text-base-content/75">
-            Mes
+            {t.projects.titleLine1}
           </span>
           <span
             className="block text-4xl lg:text-6xl 2xl:text-7xl"
@@ -161,58 +155,48 @@ export default function ProjectSection() {
               backgroundClip: "text",
             }}
           >
-            réalisations
+            {t.projects.titleLine2}
           </span>
         </h2>
-
-        {/* ── Grille projets ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {projects.map((project, i) => (
             <div
               key={project.name}
               className="group relative flex flex-col border border-base-content/[0.07] bg-base-content/[0.02] hover:border-primary/25 hover:bg-primary/[0.02] transition-all duration-500 animate-fade-slide-up overflow-hidden"
               style={{ animationDelay: `${0.3 + i * 0.08}s` }}
             >
-              {/* ── Shimmer sweep au hover ── */}
-              <div className="card-shine-overlay" />
-              {/* Coin neon haut-droite */}
-              <div className="absolute top-0 right-0 w-20 h-px bg-gradient-to-l from-primary/50 to-transparent group-hover:from-primary transition-all duration-500" />
+<div className="card-shine-overlay" />
+<div className="absolute top-0 right-0 w-20 h-px bg-gradient-to-l from-primary/50 to-transparent group-hover:from-primary transition-all duration-500" />
               <div className="absolute top-0 right-0 w-px h-16 bg-gradient-to-b from-primary/50 to-transparent group-hover:from-primary transition-all duration-500" />
-
-              {/* ── Header visuel ── */}
-              <div className="relative h-36 shrink-0 overflow-hidden border-b border-base-content/[0.05]">
+<div className="relative h-36 shrink-0 overflow-hidden border-b border-base-content/[0.05]">
                 {project.preview ? (
                   <>
                     <Image
                       src={project.preview}
-                      alt={`Aperçu ${project.name}`}
+                      alt={`${t.projects.previewAlt} ${project.name}`}
                       fill
                       className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
-                    {/* Overlay gradient bas → fond carte */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-base-100/30 to-base-100/95" />
-                    {/* Teinte neon au hover */}
-                    <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/[0.04] transition-colors duration-500" />
+<div className="absolute inset-0 bg-gradient-to-b from-black/5 via-base-100/30 to-base-100/95" />
+<div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/[0.04] transition-colors duration-500" />
                   </>
                 ) : (
-                  /* Placeholder : gradient + SVG du projet mis à l'échelle */
+                  
                   <div className="h-full flex items-center justify-center bg-gradient-to-br from-primary/[0.07] via-transparent to-base-content/[0.02] group-hover:from-primary/[0.11] transition-all duration-500">
                     <div className="scale-[3] opacity-[0.18] group-hover:opacity-[0.28] transition-opacity duration-500 pointer-events-none select-none">
                       {project.svg}
                     </div>
                   </div>
                 )}
-
-                {/* Lien externe / badge privé */}
-                <div className="absolute top-3 right-3 z-10">
+<div className="absolute top-3 right-3 z-10">
                   {project.href ? (
                     <a
                       href={project.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-7 h-7 flex items-center justify-center border border-primary/25 bg-base-100/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 hover:bg-primary/15 hover:border-primary/50 transition-all duration-200"
-                      aria-label={`Voir ${project.name}`}
+                      className="w-7 h-7 flex items-center justify-center border border-primary/25 bg-base-100/80 backdrop-blur-sm opacity-100 lg:opacity-0 lg:group-hover:opacity-100 hover:bg-primary/15 hover:border-primary/50 transition-all duration-200"
+                      aria-label={`${t.projects.viewProject} ${project.name}`}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -225,17 +209,14 @@ export default function ProjectSection() {
                       </svg>
                     </a>
                   ) : (
-                    <span className="text-[9px] font-bold tracking-[0.2em] uppercase px-2 py-1 bg-base-100/70 backdrop-blur-sm border border-base-content/[0.08] text-base-content/25 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      Privé
+                    <span className="text-[9px] font-bold tracking-[0.2em] uppercase px-2 py-1 bg-base-100/70 backdrop-blur-sm border border-base-content/[0.08] text-base-content/25 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300">
+                      {t.projects.private}
                     </span>
                   )}
                 </div>
               </div>
-
-              {/* ── Contenu ── */}
-              <div className="flex flex-col gap-3 p-5 flex-1">
-                {/* Icône + titre */}
-                <div className="flex items-start gap-3">
+<div className="flex flex-col gap-3 p-5 flex-1">
+<div className="flex items-start gap-3">
                   <div className="w-9 h-9 shrink-0 flex items-center justify-center bg-primary/8 border border-primary/10 group-hover:border-primary/25 group-hover:bg-primary/12 transition-all duration-300 mt-0.5">
                     {project.svg}
                   </div>
@@ -243,14 +224,10 @@ export default function ProjectSection() {
                     {project.name}
                   </h3>
                 </div>
-
-                {/* Description */}
-                <p className="text-sm text-base-content/45 leading-relaxed group-hover:text-base-content/60 transition-colors duration-300">
-                  {project.description}
+<p className="text-sm text-base-content/45 leading-relaxed group-hover:text-base-content/60 transition-colors duration-300">
+                  {(t.projects.descriptions as Record<string, string>)[project.name] || project.description}
                 </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1.5 mt-auto pt-1">
+<div className="flex flex-wrap gap-1.5 mt-auto pt-1">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}

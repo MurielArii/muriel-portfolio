@@ -2,13 +2,15 @@
 
 import Image from "next/image";
 import { useRef, useEffect, useCallback } from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 export default function HeroSection() {
+  const { t } = useLanguage();
   const sectionRef  = useRef<HTMLElement>(null);
   const spotlightRef = useRef<HTMLDivElement>(null);
   const nameRef      = useRef<HTMLSpanElement>(null);
 
-  /* ── Scramble du nom au chargement ── */
+  
   useEffect(() => {
     const el = nameRef.current;
     if (!el) return;
@@ -36,15 +38,14 @@ export default function HeroSection() {
     return () => cancelAnimationFrame(rafId);
   }, []);
 
-  /* ── Spotlight souris ── */
+  
   const onMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const rect = sectionRef.current?.getBoundingClientRect();
     if (!rect || !spotlightRef.current) return;
     const x = ((e.clientX - rect.left) / rect.width)  * 100;
     const y = ((e.clientY - rect.top)  / rect.height) * 100;
 
-    // Sur desktop la photo commence à ~50% → on estompe le spotlight
-    // pour qu'il disparaisse avant d'atteindre la zone photo
+
     const isDesktop = rect.width >= 1024;
     const fade = isDesktop
       ? Math.max(0, Math.min(1, (52 - x) / 18)) // 100% à x≤34%, 0% à x≥52%
@@ -70,9 +71,7 @@ export default function HeroSection() {
           backgroundSize: "64px 64px",
         }}
       />
-
-      {/* ── Spotlight souris ── */}
-      <div
+<div
         ref={spotlightRef}
         className="absolute inset-0 pointer-events-none"
         style={{ transition: "background 0.12s ease" }}
@@ -101,23 +100,19 @@ export default function HeroSection() {
       >
         <Image
           src="/images/Muriel.png"
-          alt="Photo de profil"
+          alt={t.hero.profileAlt}
           fill
           sizes="(max-width: 1024px) 100vw, 62vw"
           className="object-cover object-[50%_0%] lg:object-[100%_0%]"
           priority
         />
-        {/* Fondu gauche → droite */}
-        <div className="absolute inset-0 bg-gradient-to-r from-base-100 via-base-100/80 lg:via-base-100/55 to-base-100/10 lg:to-transparent" />
-        {/* Fondu bas */}
-        <div className="absolute inset-0 bg-gradient-to-t from-base-100 via-base-100/20 to-transparent" />
-        {/* Fondu haut — masque le bord supérieur visible sur desktop */}
-        <div className="absolute inset-x-0 top-0 h-[18%] bg-gradient-to-b from-base-100 to-transparent hidden lg:block" />
-        {/* Overlay mobile */}
-        <div className="absolute inset-0 bg-base-100/55 lg:hidden" />
+<div className="absolute inset-0 bg-gradient-to-r from-base-100 via-base-100/80 lg:via-base-100/55 to-base-100/10 lg:to-transparent" />
+<div className="absolute inset-0 bg-gradient-to-t from-base-100 via-base-100/20 to-transparent" />
+<div className="absolute inset-x-0 top-0 h-[18%] bg-gradient-to-b from-base-100 to-transparent hidden lg:block" />
+<div className="absolute inset-0 bg-base-100/55 lg:hidden" />
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 overflow-hidden pointer-events-none select-none">
+      <div className="absolute -bottom-[2vw] left-0 right-0 overflow-hidden pointer-events-none select-none">
         <p className="text-[14vw] font-black leading-none text-center tracking-tighter text-primary/[0.045]">
           PORTFOLIO
         </p>
@@ -138,8 +133,8 @@ export default function HeroSection() {
             className="flex items-baseline gap-2.5 mb-3 text-xl lg:text-2xl font-light tracking-wide animate-fade-slide-up"
             style={{ animationDelay: "0.25s" }}
           >
-            <span className="text-base-content/75">Bonjour</span>
-            <span className="text-base-content/35">, je suis</span>
+            <span className="text-base-content/75">{t.hero.greeting}</span>
+            <span className="text-base-content/35">{t.hero.greetingSuffix}</span>
           </p>
 
           <h1
@@ -179,7 +174,7 @@ export default function HeroSection() {
               }}
             />
             <p className="text-base-content/65 text-base lg:text-lg font-medium tracking-widest uppercase text-[0.82rem] lg:text-[0.9rem]">
-              Développeuse Full Stack
+              {t.hero.role}
             </p>
             <span className="w-[2px] h-4 bg-primary/70 rounded-full animate-cursor-blink" />
           </div>
@@ -188,21 +183,21 @@ export default function HeroSection() {
             className="text-base-content/50 text-base lg:text-lg leading-relaxed max-w-xs lg:max-w-sm mb-10 animate-fade-slide-up"
             style={{ animationDelay: "0.75s" }}
           >
-            Je transforme des idées en expériences web modernes,
-            performantes et élégantes.
+            {t.hero.description}
           </p>
 
           <div
-            className="flex flex-wrap items-center gap-8 mb-10 animate-fade-slide-up"
+            className="flex flex-wrap items-center gap-8 mb-10 relative z-10 animate-fade-slide-up"
             style={{ animationDelay: "0.9s" }}
           >
             <a
-              href="#projects"
+              href="/CV_MurielArisoaRanaivoson.pdf"
+              download
               className="group relative inline-flex items-center gap-3 px-8 py-3.5 text-sm font-bold tracking-[0.18em] uppercase overflow-hidden border border-primary/50 hover:border-primary transition-colors duration-300"
             >
               <span className="absolute inset-0 bg-primary origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
               <span className="relative z-10 text-base-content group-hover:text-primary-content transition-colors delay-150 duration-150">
-                Voir mes projets
+                {t.hero.downloadCV}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -210,9 +205,9 @@ export default function HeroSection() {
                 viewBox="0 0 24 24"
                 strokeWidth={2}
                 stroke="currentColor"
-                className="relative z-10 w-4 h-4 text-primary group-hover:text-primary-content group-hover:translate-x-1 transition-all duration-300 delay-100"
+                className="relative z-10 w-4 h-4 text-primary group-hover:text-primary-content group-hover:translate-y-0.5 transition-all duration-300 delay-100"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
               </svg>
             </a>
 
@@ -220,7 +215,7 @@ export default function HeroSection() {
               href="#contact"
               className="group relative inline-flex items-center gap-2 py-2 text-sm font-medium tracking-[0.18em] uppercase text-base-content/45 hover:text-base-content transition-colors duration-300"
             >
-              Me contacter
+              {t.hero.contactMe}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

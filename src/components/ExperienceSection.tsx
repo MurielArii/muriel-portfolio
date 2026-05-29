@@ -1,3 +1,7 @@
+"use client";
+
+import { useLanguage } from "@/i18n/LanguageContext";
+
 type Experience = {
   period: string;
   title: string;
@@ -49,13 +53,29 @@ const awards: Award[] = [
 ];
 
 export default function ExperienceSection() {
+  const { t } = useLanguage();
+
+  const localizedExperiences = experiences.map((exp, i) => ({
+    ...exp,
+    period: t.experience.experiences[i]?.period ?? exp.period,
+    title: t.experience.experiences[i]?.title ?? exp.title,
+    company: t.experience.experiences[i]?.company ?? exp.company,
+    description: t.experience.experiences[i]?.description ?? exp.description,
+  }));
+
+  const localizedAwards = awards.map((aw, i) => ({
+    ...aw,
+    period: t.experience.awards[i]?.period ?? aw.period,
+    title: t.experience.awards[i]?.title ?? aw.title,
+    place: t.experience.awards[i]?.place ?? aw.place,
+  }));
+
   return (
     <section
       id="experience"
       className="relative bg-base-100 overflow-hidden py-24 lg:py-36"
     >
-      {/* ── Lignes horizontales (scanlines) ── */}
-      <div
+<div
         className="absolute inset-0 pointer-events-none opacity-[0.04]"
         style={{
           backgroundImage:
@@ -63,16 +83,12 @@ export default function ExperienceSection() {
           backgroundSize: "100% 48px",
         }}
       />
-
-      {/* ── Filigrane "05" ── */}
-      <div className="absolute bottom-0 right-0 overflow-hidden pointer-events-none select-none leading-none">
+<div className="absolute bottom-0 right-0 overflow-hidden pointer-events-none select-none leading-none">
         <p className="text-[28vw] font-black tracking-tighter text-primary/[0.03]">
           05
         </p>
       </div>
-
-      {/* ── Blobs ── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+<div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           className="absolute top-[10%] right-[-8%] w-[420px] h-[420px] bg-primary/5 rounded-full blur-[140px] animate-blob-float"
           style={{ animationDuration: "19s" }}
@@ -82,9 +98,7 @@ export default function ExperienceSection() {
           style={{ animationDelay: "-11s", animationDuration: "23s" }}
         />
       </div>
-
-      {/* ── Ligne verticale décorative ── */}
-      <div className="absolute left-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-3">
+<div className="absolute left-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-3">
         <div className="w-px h-20 bg-gradient-to-b from-transparent via-primary/30 to-transparent" />
         <span className="text-[9px] font-bold tracking-[0.3em] text-primary/30 [writing-mode:vertical-rl]">
           05
@@ -95,12 +109,10 @@ export default function ExperienceSection() {
       <div className="relative z-10 px-8 lg:px-20 2xl:px-32">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-center">
-
-          {/* ── Colonne gauche : Expériences ── */}
-          <div>
+<div>
             <div className="flex items-center gap-3 mb-5 animate-fade-slide-up" style={{ animationDelay: "0.1s" }}>
               <span className="w-6 h-px bg-primary/50" />
-              <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-primary/70">Expériences</span>
+              <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-primary/70">{t.experience.label}</span>
               <span className="w-6 h-px bg-primary/50" />
             </div>
 
@@ -108,7 +120,7 @@ export default function ExperienceSection() {
               className="font-black leading-[0.88] tracking-tight mb-14 animate-fade-slide-up"
               style={{ animationDelay: "0.2s" }}
             >
-              <span className="block text-4xl lg:text-5xl 2xl:text-6xl text-base-content/75">Mes</span>
+              <span className="block text-4xl lg:text-5xl 2xl:text-6xl text-base-content/75">{t.experience.titleLine1}</span>
               <span
                 className="block text-4xl lg:text-5xl 2xl:text-6xl"
                 style={{
@@ -118,12 +130,12 @@ export default function ExperienceSection() {
                   backgroundClip: "text",
                 }}
               >
-                expériences
+                {t.experience.titleLine2}
               </span>
             </h2>
 
             <div className="divide-y divide-base-content/[0.06]">
-              {experiences.map((exp, i) => (
+              {localizedExperiences.map((exp, i) => (
                 <div
                   key={exp.title + i}
                   className="py-8 first:pt-0 group animate-fade-slide-up"
@@ -163,12 +175,10 @@ export default function ExperienceSection() {
               ))}
             </div>
           </div>
-
-          {/* ── Colonne droite : Prix & Distinctions — centré ── */}
-          <div className="flex flex-col items-start text-left">
+<div className="flex flex-col items-start text-left">
             <div className="flex items-center gap-3 mb-5 animate-fade-slide-up" style={{ animationDelay: "0.15s" }}>
               <span className="w-6 h-px bg-primary/50" />
-              <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-primary/70">Distinctions</span>
+              <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-primary/70">{t.experience.awardsLabel}</span>
               <span className="w-6 h-px bg-primary/50" />
             </div>
 
@@ -176,7 +186,7 @@ export default function ExperienceSection() {
               className="font-black leading-[0.88] tracking-tight mb-14 animate-fade-slide-up"
               style={{ animationDelay: "0.25s" }}
             >
-              <span className="block text-4xl lg:text-5xl 2xl:text-6xl text-base-content/75">Prix &</span>
+              <span className="block text-4xl lg:text-5xl 2xl:text-6xl text-base-content/75">{t.experience.awardsTitleLine1}</span>
               <span
                 className="block text-4xl lg:text-5xl 2xl:text-6xl"
                 style={{
@@ -186,12 +196,12 @@ export default function ExperienceSection() {
                   backgroundClip: "text",
                 }}
               >
-                récompenses
+                {t.experience.awardsTitleLine2}
               </span>
             </h2>
 
             <div className="flex flex-col items-center gap-10 w-full">
-              {awards.map((award, i) => (
+              {localizedAwards.map((award, i) => (
                 <div
                   key={award.title}
                   className="animate-fade-slide-up group w-full"

@@ -1,13 +1,16 @@
+"use client";
+
 import Image from "next/image";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 export default function AboutMeSection() {
+  const { t } = useLanguage();
   return (
     <section
       id="about"
       className="relative bg-base-100 overflow-hidden py-24 lg:py-36"
     >
-      {/* ── Grille sombre subtile ── */}
-      <div
+<div
         className="absolute inset-0 pointer-events-none opacity-[0.04]"
         style={{
           backgroundImage:
@@ -15,16 +18,12 @@ export default function AboutMeSection() {
           backgroundSize: "64px 64px",
         }}
       />
-
-      {/* ── Filigrane "01" ── */}
-      <div className="absolute top-0 right-0 overflow-hidden pointer-events-none select-none leading-none">
+<div className="absolute top-0 right-0 overflow-hidden pointer-events-none select-none leading-none">
         <p className="text-[22vw] font-black tracking-tighter text-primary/[0.03]">
           01
         </p>
       </div>
-
-      {/* ── Blobs ── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+<div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           className="absolute top-[-5%] left-[-10%] w-[500px] h-[500px] bg-primary/8 rounded-full blur-[140px] animate-blob-float"
           style={{ animationDuration: "14s" }}
@@ -34,9 +33,7 @@ export default function AboutMeSection() {
           style={{ animationDelay: "-5s", animationDuration: "18s" }}
         />
       </div>
-
-      {/* ── Ligne verticale décorative ── */}
-      <div className="absolute left-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-3">
+<div className="absolute left-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-3">
         <div className="w-px h-20 bg-gradient-to-b from-transparent via-primary/30 to-transparent" />
         <span className="text-[9px] font-bold tracking-[0.3em] text-primary/30 [writing-mode:vertical-rl]">
           01
@@ -45,25 +42,22 @@ export default function AboutMeSection() {
       </div>
 
       <div className="relative z-10 px-8 lg:px-20 2xl:px-32">
-        {/* ── Label section ── */}
-        <div
+<div
           className="flex items-center gap-3 mb-5 animate-fade-slide-up"
           style={{ animationDelay: "0.1s" }}
         >
           <span className="w-6 h-px bg-primary/50" />
           <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-primary/70">
-            À propos
+            {t.about.label}
           </span>
           <span className="w-6 h-px bg-primary/50" />
         </div>
-
-        {/* ── Titre ── */}
-        <h2
+<h2
           className="font-black leading-[0.88] tracking-tight mb-16 animate-fade-slide-up"
           style={{ animationDelay: "0.2s" }}
         >
           <span className="block text-4xl lg:text-6xl 2xl:text-7xl text-base-content/75">
-            Qui
+            {t.about.titleLine1}
           </span>
           <span
             className="block text-4xl lg:text-6xl 2xl:text-7xl"
@@ -75,20 +69,15 @@ export default function AboutMeSection() {
               backgroundClip: "text",
             }}
           >
-            suis-je ?
+            {t.about.titleLine2}
           </span>
         </h2>
-
-        {/* ── Grille principale ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-20 items-start">
-
-          {/* ─ Colonne gauche : identité ─ */}
-          <div
+<div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-20 items-start">
+<div
             className="lg:col-span-2 flex flex-col gap-8 animate-fade-slide-up"
             style={{ animationDelay: "0.3s" }}
           >
-            {/* Avatar */}
-            <div className="relative w-fit">
+<div className="relative w-fit">
               <div className="absolute inset-0 rounded-full bg-primary/20 blur-2xl scale-125 pointer-events-none" />
               <div className="relative w-36 h-36 lg:w-44 lg:h-44 rounded-full overflow-hidden ring-1 ring-primary/30">
                 <Image
@@ -107,13 +96,11 @@ export default function AboutMeSection() {
                 }}
               >
                 <span className="text-[9px] font-bold tracking-[0.18em] uppercase text-primary leading-none">
-                  Full Stack
+                  {t.about.role}
                 </span>
               </div>
             </div>
-
-            {/* Nom */}
-            <div className="mt-1">
+<div className="mt-1">
               <h3 className="text-2xl lg:text-3xl font-black tracking-tight text-base-content leading-tight">
                 Muriel
               </h3>
@@ -126,14 +113,12 @@ export default function AboutMeSection() {
                   style={{ boxShadow: "0 0 6px var(--color-primary)" }}
                 />
                 <p className="text-[10px] font-bold tracking-[0.28em] uppercase text-primary/60">
-                  Développeuse
+                  {t.about.roleLabel}
                 </p>
                 <span className="w-[2px] h-3 bg-primary/60 rounded-full animate-cursor-blink" />
               </div>
             </div>
-
-            {/* Contact */}
-            <div className="flex flex-col gap-3">
+<div className="flex flex-col gap-3">
               <a
                 href="tel:+261346685721"
                 className="group flex items-center gap-3 text-sm text-base-content/45 hover:text-base-content/80 transition-colors duration-300"
@@ -179,11 +164,9 @@ export default function AboutMeSection() {
                 <span className="break-all">murielarisoaran@gmail.com</span>
               </a>
             </div>
-
-            {/* Réseaux sociaux */}
-            <div className="flex items-center gap-3">
+<div className="flex items-center gap-3">
               <span className="text-xs text-base-content/30 tracking-[0.22em] uppercase">
-                Suivre
+                {t.about.follow}
               </span>
               <div className="h-px w-4 bg-base-content/20" />
 
@@ -227,14 +210,11 @@ export default function AboutMeSection() {
               </a>
             </div>
           </div>
-
-          {/* ─ Colonne droite : bio + langues ─ */}
-          <div
+<div
             className="lg:col-span-3 flex flex-col gap-12 animate-fade-slide-up"
             style={{ animationDelay: "0.45s" }}
           >
-            {/* Bio */}
-            <div className="relative">
+<div className="relative">
               <span
                 className="absolute -top-6 -left-1 text-[6rem] font-black leading-none text-primary/10 select-none pointer-events-none"
                 aria-hidden="true"
@@ -243,12 +223,11 @@ export default function AboutMeSection() {
               </span>
               <div className="pt-6 pl-2">
                 <p className="text-base-content/60 text-lg lg:text-xl leading-relaxed">
-                  À travers chaque projet, j'ai appris à allier{" "}
+                  {t.about.bio}{" "}
                   <span className="text-base-content/90 font-semibold">
-                    rigueur technique et sensibilité au design
+                    {t.about.bioHighlight}
                   </span>{" "}
-                  — convaincue qu'un bon produit se ressent autant qu'il
-                  fonctionne.
+                  {t.about.bioEnd}
                 </p>
 
                 <a
@@ -257,7 +236,7 @@ export default function AboutMeSection() {
                 >
                   <span className="absolute inset-0 bg-primary origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
                   <span className="relative z-10 text-base-content group-hover:text-primary-content transition-colors delay-150 duration-150">
-                    Voir mes projets
+                    {t.about.viewProjects}
                   </span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -276,9 +255,7 @@ export default function AboutMeSection() {
                 </a>
               </div>
             </div>
-
-            {/* Langues */}
-            <div>
+<div>
               <div className="flex items-center gap-3 mb-8">
                 <div
                   className="w-6 h-px bg-primary shrink-0"
@@ -288,15 +265,11 @@ export default function AboutMeSection() {
                   }}
                 />
                 <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-primary/60">
-                  Langues parlées
+                  {t.about.languagesLabel}
                 </p>
               </div>
               <div className="flex flex-col gap-5">
-                {[
-                  { name: "Malagasy", level: "Langue maternelle" },
-                  { name: "Français", level: "Courant" },
-                  { name: "English", level: "Intermédiaire" },
-                ].map(({ name, level }) => (
+                {t.about.languages.map(({ name, level }) => (
                   <div key={name} className="flex items-center justify-between gap-4">
                     <span className="text-sm font-semibold text-base-content/70">{name}</span>
                     <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-primary/50">{level}</span>

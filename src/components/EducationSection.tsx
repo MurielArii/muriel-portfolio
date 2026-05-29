@@ -1,3 +1,7 @@
+"use client";
+
+import { useLanguage } from "@/i18n/LanguageContext";
+
 type Diploma = {
   period: string;
   title: string;
@@ -5,15 +9,15 @@ type Diploma = {
   current?: boolean;
 };
 
-const diplomas: Diploma[] = [
+const diplomasFr: Diploma[] = [
   {
     period: "2023 – 2025",
-    title: "Master 2 — Génie Logiciel et Systèmes d'Information",
+    title: "Master 2 — Diplôme de Master Professionnel en Informatique, Ingénieur",
     school: "Ecole Nationale d'Informatique, Fianarantsoa",
   },
   {
     period: "2020 – 2023",
-    title: "Licence — Informatique et Génie Logiciel",
+    title: "Licence — Diplôme de Licence Professionnelle en Informatique",
     school: "Ecole Nationale d'Informatique, Fianarantsoa",
   },
   {
@@ -24,13 +28,14 @@ const diplomas: Diploma[] = [
 ];
 
 export default function EducationSection() {
+  const { t } = useLanguage();
+  const diplomas = t.education.diplomas as unknown as Diploma[];
   return (
     <section
       id="education"
       className="relative bg-base-100 overflow-hidden py-24 lg:py-36"
     >
-      {/* ── Diagonales subtiles ── */}
-      <div
+<div
         className="absolute inset-0 pointer-events-none opacity-[0.035]"
         style={{
           backgroundImage:
@@ -38,16 +43,12 @@ export default function EducationSection() {
           backgroundSize: "32px 32px",
         }}
       />
-
-      {/* ── Filigrane "04" ── */}
-      <div className="absolute bottom-0 left-0 overflow-hidden pointer-events-none select-none leading-none">
+<div className="absolute bottom-0 left-0 overflow-hidden pointer-events-none select-none leading-none">
         <p className="text-[22vw] font-black tracking-tighter text-primary/[0.03]">
           04
         </p>
       </div>
-
-      {/* ── Blobs ── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+<div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           className="absolute top-[20%] right-[-6%] w-[380px] h-[380px] bg-primary/5 rounded-full blur-[130px] animate-blob-float"
           style={{ animationDuration: "17s" }}
@@ -57,9 +58,7 @@ export default function EducationSection() {
           style={{ animationDelay: "-10s", animationDuration: "21s" }}
         />
       </div>
-
-      {/* ── Ligne verticale décorative ── */}
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-3">
+<div className="absolute right-6 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-3">
         <div className="w-px h-20 bg-gradient-to-b from-transparent via-primary/30 to-transparent" />
         <span className="text-[9px] font-bold tracking-[0.3em] text-primary/30 [writing-mode:vertical-rl]">
           04
@@ -70,28 +69,23 @@ export default function EducationSection() {
       <div className="relative z-10 px-8 lg:px-20 2xl:px-32">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-start">
-
-          {/* ─ Colonne gauche : titre ─ */}
-          <div className="lg:sticky lg:top-32">
-            {/* Label */}
-            <div
+<div className="lg:sticky lg:top-32">
+<div
               className="flex items-center gap-3 mb-5 animate-fade-slide-up"
               style={{ animationDelay: "0.1s" }}
             >
               <span className="w-6 h-px bg-primary/50" />
               <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-primary/70">
-                Formation
+                {t.education.label}
               </span>
               <span className="w-6 h-px bg-primary/50" />
             </div>
-
-            {/* Titre */}
-            <h2
+<h2
               className="font-black leading-[0.88] tracking-tight mb-10 animate-fade-slide-up"
               style={{ animationDelay: "0.2s" }}
             >
               <span className="block text-4xl lg:text-6xl 2xl:text-7xl text-base-content/75">
-                Mon
+                {t.education.titleLine1}
               </span>
               <span
                 className="block text-4xl lg:text-6xl 2xl:text-7xl"
@@ -103,23 +97,18 @@ export default function EducationSection() {
                   backgroundClip: "text",
                 }}
               >
-                parcours
+                {t.education.titleLine2}
               </span>
             </h2>
-
-            {/* Phrase décorative */}
-            <p
+<p
               className="text-sm text-base-content/30 leading-relaxed max-w-xs animate-fade-slide-up"
               style={{ animationDelay: "0.3s" }}
             >
-              Formé à l&apos;École Nationale d&apos;Informatique de Fianarantsoa — du baccalauréat au master.
+              {t.education.description}
             </p>
           </div>
-
-          {/* ─ Colonne droite : timeline ─ */}
-          <div className="relative flex flex-col">
-            {/* Ligne verticale */}
-            <div className="absolute left-[5px] top-2 bottom-2 w-px bg-gradient-to-b from-primary/60 via-primary/20 to-transparent" />
+<div className="relative flex flex-col">
+<div className="absolute left-[5px] top-2 bottom-2 w-px bg-gradient-to-b from-primary/60 via-primary/20 to-transparent" />
 
           {diplomas.map((diploma, i) => (
             <div
@@ -127,35 +116,26 @@ export default function EducationSection() {
               className="relative pl-10 pb-14 last:pb-0 animate-fade-slide-up group"
               style={{ animationDelay: `${0.3 + i * 0.12}s` }}
             >
-              {/* Dot sur la ligne */}
-              <div className={`absolute left-0 top-1.5 w-[11px] h-[11px] rounded-full border-2 transition-all duration-300 ${
+<div className={`absolute left-0 top-1.5 w-[11px] h-[11px] rounded-full border-2 transition-all duration-300 ${
                 diploma.current
                   ? "border-primary bg-primary shadow-[0_0_10px_var(--color-primary)]"
                   : "border-base-content/25 bg-base-100 group-hover:border-primary/60"
               }`} />
-
-              {/* Badge en cours */}
-              {diploma.current && (
+{diploma.current && (
                 <span className="inline-flex items-center gap-1.5 mb-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                  <span className="text-[9px] font-bold tracking-[0.25em] uppercase text-primary/70">En cours</span>
+                  <span className="text-[9px] font-bold tracking-[0.25em] uppercase text-primary/70">{t.education.inProgress}</span>
                 </span>
               )}
-
-              {/* Période */}
-              <p className={`text-[11px] font-semibold tracking-[0.2em] uppercase mb-2 ${diploma.current ? "text-primary/70" : "text-base-content/30"}`}>
+<p className={`text-[11px] font-semibold tracking-[0.2em] uppercase mb-2 ${diploma.current ? "text-primary/70" : "text-base-content/30"}`}>
                 {diploma.period}
               </p>
-
-              {/* Titre */}
-              <h3 className={`text-lg lg:text-xl font-black tracking-tight leading-snug mb-3 transition-colors duration-300 ${
+<h3 className={`text-lg lg:text-xl font-black tracking-tight leading-snug mb-3 transition-colors duration-300 ${
                 diploma.current ? "text-base-content" : "text-base-content/55 group-hover:text-base-content/80"
               }`}>
                 {diploma.title}
               </h3>
-
-              {/* École */}
-              <span className="flex items-center gap-1.5 text-xs text-base-content/30 group-hover:text-base-content/50 transition-colors duration-300">
+<span className="flex items-center gap-1.5 text-xs text-base-content/30 group-hover:text-base-content/50 transition-colors duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
@@ -164,9 +144,9 @@ export default function EducationSection() {
               </span>
             </div>
           ))}
-          </div>{/* fin timeline */}
-        </div>{/* fin grid 2 colonnes */}
-      </div>
+          </div>
+</div>
+</div>
     </section>
   );
 }
